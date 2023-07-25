@@ -4,83 +4,93 @@
   <title>ผลการประเมินความพอใจ</title>
   <style>
     body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-}
-
-h1 {
-  text-align: center;
-  margin-top: 40px;
-}
-
-#result {
-  width: 80%;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#score {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #007bff; /* เปลี่ยนสีตัวอักษรเป็นสีน้ำเงิน */
-}
-
-#details {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 18px;
-  color: #555; /* เปลี่ยนสีตัวอักษรเป็นสีเทาเข้ม */
-}
-
-#restartBtn {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  text-decoration: none;
-  color: #fff;
-  background-color: #007bff; /* เปลี่ยนสีพื้นหลังปุ่มเป็นสีน้ำเงิน */
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 18px;
-}
-
-#restartBtn:hover {
-  background-color: #0056b3; /* เปลี่ยนสีพื้นหลังปุ่มเมื่อเมาส์ชี้ที่ปุ่ม */
-}
-
-
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    #result {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    #score {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+      text-align: center;
+    }
+    #details {
+      margin-top: 16px;
+      text-align: center;
+    }
+    #details p {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    #restartBtn {
+      display: block;
+      margin-top: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    #restartBtn:hover {
+      background-color: #0056b3;
+    }
   </style>
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>ผลการประเมินความพอใจ</h1>
 
   <div id="result">
-    
     <p id="score">คะแนนที่คำนวณได้: <span id="scoreValue"></span> คะแนน</p>
     <div id="details">
       <!-- รายละเอียดของผลคะแนน -->
     </div>
-    <a href="index.html" id="restartBtn">ทำแบบประเมินอีกครั้ง</a>
+    <a href="assessment.html" id="restartBtn">ทำแบบประเมินอีกครั้ง</a>
   </div>
 
-  <!-- JavaScript สำหรับการแสดงผลคะแนน -->
-  <script src="script.js"></script>
   <script>
-    // ดึงค่าชื่อผู้ประเมินจาก URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const assessorName = urlParams.get('name');
+    // สร้างฟังก์ชันในการแสดงผลคะแนนและรายละเอียด
+    function showResult(score) {
+      const scoreValueSpan = document.getElementById('scoreValue');
+      const detailsDiv = document.getElementById('details');
+      scoreValueSpan.textContent = score;
 
-    // แสดงชื่อผู้ประเมินในส่วนของ HTML
-    const assessorNameElement = document.getElementById('assessorName');
-    assessorNameElement.textContent = assessorName;
+      // ตัวอย่างรายละเอียดที่คำนวณจากคะแนน คุณสามารถปรับแต่งตามความต้องการของคุณได้
+      let detailsHTML = '';
+      if (score >= 0 && score <= 15) {
+        detailsHTML = '<p>คุณมีสุขภาพจิตที่ดีมาก</p>';
+      } else if (score >= 16 && score <= 30) {
+        detailsHTML = '<p>คุณมีสุขภาพจิตที่ดี</p>';
+      } else if (score >= 31 && score <= 45) {
+        detailsHTML = '<p>คุณมีสุขภาพจิตปานกลาง</p>';
+      } else {
+        detailsHTML = '<p>คุณมีสุขภาพจิตที่ต้องให้คำปรึกษา</p>';
+      }
+
+      detailsDiv.innerHTML = detailsHTML;
+    }
+
+    // ดึงคะแนนที่คำนวณได้จาก URL หลังจากเปิดหน้าผลการประเมิน
+    const urlParams = new URLSearchParams(window.location.search);
+    const scoreFromURL = urlParams.get('score');
+    if (scoreFromURL) {
+      showResult(scoreFromURL);
+    }
   </script>
 </body>
 </html>
